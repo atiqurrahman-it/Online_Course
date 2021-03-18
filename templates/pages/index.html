@@ -1,0 +1,43 @@
+{% extends 'inheritance_page/base.html' %}
+
+{% block title %}
+   onlineCourse
+{% endblock %}
+
+{% block maincontent %}
+<br>
+<div class="container-fluid">
+<div class="row">
+    {% for cou in all_course %}
+        <div class="col-md-4 mx-auto">
+        <div class="card mx-auto" style="width: 24rem;">
+          <img class="card-img-top" src="{{ cou.thumbnail.url }}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{ cou.name }}</h5>
+            <p class="card-text m-0 p-0">
+              Save {{ cou.discount }}%
+              <br>
+                <span class="price">
+                   <del> Tk {{ cou.price }} </del>
+                  &nbsp;  <span>Tk 1200</span>
+                </span>
+            </p>
+          </div>
+            <div class="card-footer p-0">
+                <div class="row no-gutters">
+                    <div class="col border-right">
+                         <a href="#" class="btn btn-light btn-block">Enroll Now</a>
+                    </div>
+                     <div class="col">
+                          <a href="#" class="btn btn-light btn-block">Show More</a>
+                     </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+
+</div> <!-- end row -->
+</div> <!-- end container-fluid -->
+
+{% endblock %}
