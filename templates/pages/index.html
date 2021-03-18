@@ -1,5 +1,7 @@
 {% extends 'inheritance_page/base.html' %}
 
+{% load course_discunt_calculation %}
+
 {% block title %}
    onlineCourse
 {% endblock %}
@@ -15,12 +17,21 @@
           <div class="card-body">
             <h5 class="card-title">{{ cou.name }}</h5>
             <p class="card-text m-0 p-0">
-              Save {{ cou.discount }}%
-              <br>
-                <span class="price">
-                   <del> Tk {{ cou.price }} </del>
-                  &nbsp;  <span>Tk 1200</span>
+
+              {% if cou.discount  %}
+                  Save {{ cou.discount }}%
+                  <br>
+                  <span class="price">
+                   <del> {{ cou.price|Taka }} </del>
+                  &nbsp;  <span>Tk {% cou_dis_cal cou.price cou.discount %}</span>
                 </span>
+                 {% else %}
+                     <span class="price">
+                  &nbsp;  <span> {% cou_dis_cal cou.price cou.discount as valu %} {{ valu|Taka }}</span>
+                </span>
+
+                {% endif %}
+
             </p>
           </div>
             <div class="card-footer p-0">
@@ -29,7 +40,7 @@
                          <a href="#" class="btn btn-light btn-block">Enroll Now</a>
                     </div>
                      <div class="col">
-                          <a href="#" class="btn btn-light btn-block">Show More</a>
+                          <a href="{% url 'singleCourse' cou.slug %}" class="btn btn-light btn-block">Show More</a>
                      </div>
                 </div>
             </div>

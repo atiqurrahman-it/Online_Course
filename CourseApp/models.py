@@ -6,6 +6,7 @@ from django.db import models
 
 class Course(models.Model):
     name = models.CharField(max_length=100, null=False)
+    slug = models.CharField(max_length=100, null=False, unique=True)
     description = models.CharField(max_length=200, null=True)
     price = models.IntegerField(default=0, null=False)
     discount = models.IntegerField(default=0, null=False)
@@ -21,7 +22,7 @@ class Course(models.Model):
 
 class courseProperty_inheritance(models.Model):
     description = models.CharField(max_length=200, null=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False)
+    course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
