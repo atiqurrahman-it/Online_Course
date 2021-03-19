@@ -1,26 +1,95 @@
 {% extends 'inheritance_page/base.html' %}
 
+{% load static %}
+
+{% block stylesheet_link %}
+{% endblock %}
+
+{% block title %} single page {% endblock %}
+
+
+{% block stylesheet %}
+    <style>
+
+     .overflow-y-scroll {
+         overflow-y: scroll;
+     }
+
+     .video_active{
+         background:black;
+         text-decoration: none;
+
+     }
+
+        .video_active a{
+            color:#ded8d8;
+     }
+
+        a{
+            text-decoration: none;
+            color:black;
+        }
+        a:hover{
+            text-decoration: none;
+        }
+
+    .video_active a:hover{
+            color:white;
+            text-decoration: none;
+     }
+
+     /* scrollbars */
+
+     /* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+    </style>
+
+{% endblock %}
+
 
 {% block maincontent %}
   <div class="container-fluid">
     <div>
         <br>
+
         <div class="card p-3">
             <div class="row">
                 <!-- youtube player -->
                 <div class="col">
                     <div class="mx-auto">
-                       <iframe  class="mx-auto" width="100%" height="315" src="https://www.youtube.com/embed/LRr_ip1CTFw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-
+                       <iframe  id="video_player" class="mx-auto" width="100%" height="315"
+                                src="https://www.youtube.com/embed/{{ video_details.video_id }}" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                        </iframe>
                     </div>
                 </div>
                 <!-- leacture list -->
                 <div class="col-3">
-                    <ul  class="list-group overflow-y-scroll">
-                        <li> aa </li>
-                        <li> aa </li>
-                        <li> aa </li>
+                    <ul  id='video_list' class="list-group overflow-y-scroll">
+                        {% for v in all_video %}
+                        <li class="list-group-item {% if v == video_details %} video_active {% endif %}">
+                            <a href="?lecture={{ v.serial_number }}">
+                                {{v}}
+                            </a>
+                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -58,7 +127,7 @@
                     <h5 class="card-title">Learnings</h5>
                   <p class="card-text">
                     <ol>
-                         {% for p in singleCourse.Learning_set.all %}
+                         {% for p in singleCourse.learning_set.all %}
                          <li class="">{{p.description}}</li>
                         {% endfor %}
                     </ol>
@@ -76,4 +145,17 @@
 
 </div>
 
+
+
+
+{% endblock %}
+
+{% block script_link %}
+     <script src="{% static 'resources/js/video_player_responsive.js' %}"></script>
+{% endblock %}
+
+{% block script_code %}
+    <script>
+
+    </script>
 {% endblock %}

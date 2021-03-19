@@ -1,9 +1,19 @@
 {% extends 'inheritance_page/base.html' %}
 
 {% load course_discunt_calculation %}
+{% load static  %}
 
-{% block title %}
-   onlineCourse
+{% block stylesheet_link %}
+{% endblock %}
+
+{% block title %} E-Learning {% endblock %}
+
+
+{% block stylesheet %}
+<style>
+
+ </style>
+
 {% endblock %}
 
 {% block maincontent %}
@@ -51,4 +61,13 @@
 </div> <!-- end row -->
 </div> <!-- end container-fluid -->
 
+{% endblock %} <!--end maincontent-->
+
+{% block script_link %}
 {% endblock %}
+
+{% block script_code %}
+    <script>
+    </script>
+{% endblock %}
+

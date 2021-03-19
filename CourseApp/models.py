@@ -28,7 +28,8 @@ class courseProperty_inheritance(models.Model):
         abstract = True
 
 
-class Tag(courseProperty_inheritance):
+# N.B name small letter
+class tag(courseProperty_inheritance):
     pass
 
 
@@ -36,13 +37,16 @@ class prerequisite(courseProperty_inheritance):
     pass
 
 
-class Learning(courseProperty_inheritance):
+class learning(courseProperty_inheritance):
     pass
 
 
-class Video(models.Model):
+class video(models.Model):
     title = models.CharField(max_length=100, null=False)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False)
     serial_number = models.IntegerField(null=False)
     video_id = models.CharField(max_length=100, null=False)
     is_preview = models.BooleanField()
+
+    def __str__(self):
+        return self.title
