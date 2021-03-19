@@ -1,0 +1,36 @@
+{% extends 'inheritance_page/base.html' %}
+
+{% load static  %}
+
+{% block stylesheet_link %}
+{% endblock %}
+
+{% block title %} E-Learning {% endblock %}
+
+
+{% block stylesheet %}
+<style>
+
+ </style>
+
+{% endblock %}
+
+{% block maincontent %}
+    <h1>signup page </h1>
+        <div class="container">
+    <form action="{% url 'signup' %}" method="post">
+       {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="submit">
+    </form>
+    </div>
+{% endblock %} <!--end maincontent-->
+
+{% block script_link %}
+{% endblock %}
+
+{% block script_code %}
+    <script>
+    </script>
+{% endblock %}
+

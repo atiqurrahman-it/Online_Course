@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse,redirect
 from .models import Course, video
 
 
@@ -13,14 +13,17 @@ def Homepage(request):
 
 
 def singleCoursePage(request, slug):
-    print(request.user.is_authenticated)
-    print(request.user)
+
     single_course = Course.objects.get(slug=slug)
     all_video = single_course.video_set.all().order_by("serial_number")  # serial_number import
     serial_number = request.GET.get("lecture")  # import CourseSinglePage
     if serial_number is None:
         serial_number = 1
     link_click_video = video.objects.get(serial_number=serial_number, course=single_course)
+
+    if((request.user.is_authenticated is False and (link_click_video.is_preview is False))):
+        return redirect('login')
+
 
     data = {
         "singleCourse": single_course,
