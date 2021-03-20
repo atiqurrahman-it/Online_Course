@@ -16,14 +16,50 @@
 {% endblock %}
 
 {% block maincontent %}
-    <h1>signup page </h1>
-        <div class="container">
-    <form action="{% url 'signup' %}" method="post">
-       {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="submit">
-    </form>
-    </div>
+ <div class="container">
+      <div class="row">
+             <div class="col-12 mx-auto">
+                   <div class="mx-auto text-center">
+                       <img class="mx-auto" style="width: 350px;" src="https://st.depositphotos.com/1823785/4664/i/950/depositphotos_46647307-stock-photo-hands-holding-sign-up.jpg">
+                   </div>
+                 <br>
+             </div>
+            <div class="col-md-6 offset-md-3">
+                {% include 'inheritance_page/message.html' %}
+                 <form action="{% url 'signup' %}" method="post">
+                     {% csrf_token %}
+                     <div class="form-group">
+                        <label for="exampleInputEmail1">Username</label>
+                        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+                      </div>
+                        <div class="form-group">
+                        <label for="exampleInputEmail1">First Name</label>
+                        <input type="text" name="first_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter First Name">
+                       </div>
+                        <div class="form-group">
+                        <label for="exampleInputEmail1">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Last Name">
+                       </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                          <input type="password" name="password1" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Conform Password</label>
+                          <input type="password" name="password2" class="form-control" id="exampleInputPassword1" placeholder="Conform Password">
+                      </div>
+
+                      <button type="submit" class="btn btn-primary">SignUP</button>
+                     <br>
+                     <br>
+                </form>
+            </div>
+      </div>
+  </div>
 {% endblock %} <!--end maincontent-->
 
 {% block script_link %}
@@ -31,6 +67,7 @@
 
 {% block script_code %}
     <script>
+
     </script>
 {% endblock %}
 

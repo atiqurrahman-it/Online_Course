@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block stylesheet_link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/css/scrollbar.css' %}">
 {% endblock %}
 
 {% block title %} single page {% endblock %}
@@ -38,27 +39,7 @@
             text-decoration: none;
      }
 
-     /* scrollbars */
 
-     /* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
     </style>
 
 {% endblock %}
