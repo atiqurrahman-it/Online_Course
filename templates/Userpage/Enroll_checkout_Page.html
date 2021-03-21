@@ -1,0 +1,90 @@
+{% extends 'inheritance_page/base.html' %}
+{% load course_discunt_calculation %}
+{% load static  %}
+
+{% block stylesheet_link %}
+{% endblock %}
+
+{% block title %} E-Learning {% endblock %}
+
+
+{% block stylesheet %}
+<style>
+
+ </style>
+
+{% endblock %}
+
+{% block maincontent %}
+    <br>
+
+
+
+
+    <div class="container">
+    <div class="row">
+         <div class="col mr-auto">
+        <div class="card ml-auto" style="width: 24rem;">
+          <img class="card-img-top" src="{{ course.thumbnail.url }}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{ course.name }}</h5>
+            <p class="card-text m-0 p-0">
+
+              {% if course.discount  %}
+                  Save {{ course.discount }}%
+                  <br>
+                  <span class="price">
+                   <del> {{ course.price|Taka }} </del>
+                  &nbsp;  <span>{% cou_dis_cal course.price course.discount as valu  %} {{ valu|Taka }}</span>
+                </span>
+                 {% else %}
+                     <span class="price">
+                  &nbsp;  <span> {% cou_dis_cal course.price course.discount as valu %} {{ valu|Taka }} </span>
+                </span>
+                {% endif %}
+            </p>
+          </div>
+        </div>
+        </div>
+        <div class="col">
+            <div>
+                <p class="display-4"> {{ course.name }}</p>
+                <hr>
+                <p class="display-5"> Payable Amount :  {% cou_dis_cal course.price course.discount as valu %} {{ valu|Taka }} </p>
+                <a href="?action=create_payment" class="btn btn-success border"> continue to payment</a>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %} <!--end maincontent-->
+
+{% block script_link %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}
+
+{% block script_code %}
+ {% if order is not None %}
+ <script>
+    var options = {
+    "key": "rzp_test_Qq3nKeI51uFsrW", // Enter the Key ID generated from the Dashboard
+    "name": "E-learning",
+    "description": "payment for {{ course.name }}",
+    "image": "https://upload.wikimedia.org/wikipedia/en/2/29/Quasar_Logo.png",
+    "order_id": "{{ order.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url":"http://localhost:8000/veryfy_payment",
+    "prefill": {
+        "name": "{{ user.first_name }}",
+        "email": "{{ user.email }}",
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+
+var rzp1 = new Razorpay(options);
+rzp1.open();
+
+</script>
+    {% endif %}
+{% endblock %}
+

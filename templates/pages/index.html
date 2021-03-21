@@ -34,7 +34,7 @@
                   <br>
                   <span class="price">
                    <del> {{ cou.price|Taka }} </del>
-                  &nbsp;  <span>Tk {% cou_dis_cal cou.price cou.discount %}</span>
+                  &nbsp;  <span>{% cou_dis_cal cou.price cou.discount as valu  %} {{ valu|Taka }}</span>
                 </span>
                  {% else %}
                      <span class="price">
@@ -48,7 +48,7 @@
             <div class="card-footer p-0">
                 <div class="row no-gutters">
                     <div class="col border-right">
-                         <a href="#" class="btn btn-light btn-block">Enroll Now</a>
+                         <a href="{% url 'Enroll_checkout' cou.slug %}" class="btn btn-light btn-block">Enroll Now</a>
                     </div>
                      <div class="col">
                           <a href="{% url 'singleCourse' cou.slug %}" class="btn btn-light btn-block">Show More</a>

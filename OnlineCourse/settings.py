@@ -131,3 +131,7 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
 
 }
+
+# payment system
+KEY_ID = "rzp_test_Qq3nKeI51uFsrW"
+kEY_SECRET = "2l8KEhJmURzzXWnCHGvOhjnh"

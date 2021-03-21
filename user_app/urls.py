@@ -14,4 +14,5 @@ urlpatterns = [
     path("signup", views.Signup_page, name='signup'),
     path("login", views.Login_page, name='login'),
     path("logout", views.LogOut_page, name='logout'),
+    path("Enroll_checkout/<str:slug>", views.Enroll_checkout_Page, name='Enroll_checkout'),
 ]
