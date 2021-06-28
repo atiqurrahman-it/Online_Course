@@ -15,4 +15,5 @@ urlpatterns = [
     path("login", views.Login_page, name='login'),
     path("logout", views.LogOut_page, name='logout'),
     path("Enroll_checkout/<str:slug>", views.Enroll_checkout_Page, name='Enroll_checkout'),
+    path("veryfy_payment", views.verifyPayment, name='verifyPayment'),
 ]

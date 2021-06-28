@@ -12,7 +12,7 @@ class User_select_course(models.Model):
     data = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return f'{self.user.username}' + {self.course.title}
+        return f'{self.user.username} + {self.course.name}'
 
 
 class Payment(models.Model):

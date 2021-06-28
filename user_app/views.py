@@ -1,10 +1,17 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from CourseApp.models import Course
-from user_app.models import Payment
 
+# csrf_token use  na korte chile
+from django.views.decorators.csrf import csrf_exempt
+
+from CourseApp.models import Course
+from user_app.models import Payment, User_select_course
+
+# payment
+# key_id and kEY_SECRET import setting.py file
 from OnlineCourse.settings import *
 from time import time
 
@@ -40,11 +47,10 @@ def Enroll_checkout_Page(request, slug):
              'currency': currency
              }
         )
-
         payment = Payment()
         payment.user = user
         payment.course = course
-        payment.order_id = order.get('id')
+        payment.order_id = order.get('id')  # order_id add hobe payment models
         payment.save()
 
     data = {
@@ -53,6 +59,34 @@ def Enroll_checkout_Page(request, slug):
         "user": user,
     }
     return render(request, 'userpage/Enroll_checkout_page.html', data)
+
+
+@csrf_exempt
+def verifyPayment(request):
+    if request.method == 'POST':
+        data = request.POST
+        print(data)
+        #
+        razorpay_order_id = data['razorpay_order_id']
+        razorpay_payment_id = data['razorpay_payment_id']
+        try:
+            client.utility.verify_payment_signature(data)
+
+            payment = Payment.objects.get(order_id=razorpay_order_id)
+            payment.payment_id = razorpay_payment_id
+            payment.status = True
+
+            # user_select_course add korte hobe
+            user_course = User_select_course(user=payment.user, course=payment.course)
+            user_course.save()
+
+            payment.user_sel_course = user_course
+            payment.save()
+
+            return render(request, 'userpage/my_enrol_courses.html', data)
+
+        except:
+            return HttpResponse("error payment completed ")
 
 
 def Signup_page(request):

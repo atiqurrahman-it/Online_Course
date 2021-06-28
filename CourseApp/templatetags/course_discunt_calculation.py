@@ -18,6 +18,6 @@ def cou_dis_cal(main_price, discount):
 
 @register.filter
 def Taka(main_price):
-    return f'{main_price} TK'
+    return f'{main_price} $'
 
 # f thats meens formeting

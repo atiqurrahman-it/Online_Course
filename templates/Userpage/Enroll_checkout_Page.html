@@ -71,7 +71,7 @@
     "description": "payment for {{ course.name }}",
     "image": "https://upload.wikimedia.org/wikipedia/en/2/29/Quasar_Logo.png",
     "order_id": "{{ order.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "callback_url":"http://localhost:8000/veryfy_payment",
+    "callback_url":"{% url 'verifyPayment' %}", <!-- payment completed hoyar por ai path a jabe -->
     "prefill": {
         "name": "{{ user.first_name }}",
         "email": "{{ user.email }}",
