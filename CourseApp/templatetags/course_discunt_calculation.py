@@ -4,6 +4,8 @@ register = template.Library()
 
 import math
 
+from user_app.models import User_select_course
+
 
 # https://docs.djangoproject.com/en/3.1/howto/custom-template-tags/
 
@@ -20,4 +22,20 @@ def cou_dis_cal(main_price, discount):
 def Taka(main_price):
     return f'{main_price} $'
 
+
 # f thats meens formeting
+
+
+# course enroll ache ki na check korbe
+
+@register.simple_tag
+def isCourseEnroll(request, course):
+    user = None
+    if not request.user.is_authenticated:
+        return False
+    user = request.user
+    try:
+        user_select_course = User_select_course.objects.get(user=user, course=course)
+        return True
+    except:
+        return False

@@ -31,32 +31,43 @@ def Enroll_checkout_Page(request, slug):
     action = request.GET.get('action')
     order = None
     payment = None
+    error_message = None
     if action == 'create_payment':
-        amount = int((course.price - ((course.price * course.discount) / 100)) * 100)
-        currency = "INR"  # INDIAN RUPI
-        notes = {
-            "email": user.email,
-            "name": f'{user.first_name} {user.last_name}'
-        }
-        reciept = f"E_learning_atiqur-{int(time())}"
+        # if this course is already enroll   then message show else enroll
+        try:
+            user_select_course = User_select_course.objects.get(user=user, course=course)
+            error_message = "this course already Enroll "
 
-        order = client.order.create(
-            {'receipt': reciept,
-             'notes': notes,
-             'amount': amount,
-             'currency': currency
-             }
-        )
-        payment = Payment()
-        payment.user = user
-        payment.course = course
-        payment.order_id = order.get('id')  # order_id add hobe payment models
-        payment.save()
+        except:
+            pass
+        # error_message na show kore
+        if error_message is None:
+            amount = int((course.price - ((course.price * course.discount) / 100)) * 100)
+            currency = "INR"  # INDIAN RUPI
+            notes = {
+                "email": user.email,
+                "name": f'{user.first_name} {user.last_name}'
+            }
+            reciept = f"E_learning_atiqur-{int(time())}"
+
+            order = client.order.create(
+                {'receipt': reciept,
+                 'notes': notes,
+                 'amount': amount,
+                 'currency': currency
+                 }
+            )
+            payment = Payment()
+            payment.user = user
+            payment.course = course
+            payment.order_id = order.get('id')  # order_id add hobe payment models
+            payment.save()
 
     data = {
         "course": course,
         "order": order,
         "user": user,
+        "error_message": error_message,
     }
     return render(request, 'userpage/Enroll_checkout_page.html', data)
 

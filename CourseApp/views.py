@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import Course, video
+from user_app.models import User_select_course
 
 
 # Create your views here.
@@ -20,8 +21,16 @@ def singleCoursePage(request, slug):
         serial_number = 1
     link_click_video = video.objects.get(serial_number=serial_number, course=single_course)
 
-    if ((request.user.is_authenticated is False and (link_click_video.is_preview is False))):
-        return redirect('login')
+    if link_click_video.is_preview is False:
+        if request.user.is_authenticated is False:
+            return redirect('login')
+        else:
+            user = request.user
+            try:
+                user_select_course = User_select_course.objects.get(user=user, course=single_course)
+            except:
+                # slug provide korte hobe path a
+                return redirect('Enroll_checkout',slug=slug)
 
     data = {
         "singleCourse": single_course,

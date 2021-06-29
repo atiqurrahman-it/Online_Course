@@ -85,6 +85,16 @@ var rzp1 = new Razorpay(options);
 rzp1.open();
 
 </script>
-    {% endif %}
+ {% endif %}
+
+{% if error_message is not  None %}
+<script>
+ window.onload=()=>{
+     alert("{{ error_message }}")
+ }
+
+</script>
+{% endif %}
+
 {% endblock %}
 

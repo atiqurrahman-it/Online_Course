@@ -1,4 +1,5 @@
 {% extends 'inheritance_page/base.html' %}
+{% load course_discunt_calculation %}
 
 {% load static %}
 
@@ -39,6 +40,17 @@
             text-decoration: none;
      }
 
+    .active_video_link{
+         color:rgb(206,202,195);
+    }
+     .active_video_link:hover{
+         color:rgb(255,255,255);
+    }
+
+     .no-preview{
+         cursor:not-allowed;
+     }
+
 
     </style>
 
@@ -64,9 +76,14 @@
                 <!-- leacture list -->
                 <div class="col-3">
                     <ul  id='video_list' class="list-group overflow-y-scroll">
+                    <!--  singleCourse and request provide templatetags singleCourse import view file  -->
+                    {% isCourseEnroll request singleCourse as enroll %}
                         {% for v in all_video %}
                         <li class="list-group-item {% if v == video_details %} video_active {% endif %}">
-                            <a href="?lecture={{ v.serial_number }}">
+                            <a class="
+                           {% if not enroll and not v.is_preview %} text-muted no-preview {% endif %}
+                           {% if v == video_details %} active_video_link {% endif %}"
+                               href="?lecture={{ v.serial_number }}">
                                 {{v}}
                             </a>
                         </li>
