@@ -6,7 +6,6 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
-
 # csrf_token use  na korte chile
 from django.views.decorators.csrf import csrf_exempt
 
@@ -27,45 +26,53 @@ client = razorpay.Client(auth=(KEY_ID, kEY_SECRET))
 @login_required(login_url='login')
 def Enroll_checkout_Page(request, slug):
     course = Course.objects.get(slug=slug)
+
     user = None
     # if not request.user.is_authenticated:
-    #     return redirect("login") # login_required control 
+    #     return redirect("login") # login_required control
 
     user = request.user
     action = request.GET.get('action')
     order = None
     payment = None
     error_message = None
+    # if this course is already enroll   then message show else enroll
+    try:
+        user_select_course = User_select_course.objects.get(user=user, course=course)
+        error_message = "this course already Enroll "
+
+    except:
+        pass
+    amount=None
+    if error_message is None:
+        amount = int((course.price - ((course.price * course.discount) / 100)) * 100)
+
+    if amount == 0:
+        user_course = User_select_course(user=user, course=course)
+        user_course.save()
+        return redirect('my_courses')
+
     if action == 'create_payment':
-        # if this course is already enroll   then message show else enroll
-        try:
-            user_select_course = User_select_course.objects.get(user=user, course=course)
-            error_message = "this course already Enroll "
-
-        except:
-            pass
         # error_message na show kore
-        if error_message is None:
-            amount = int((course.price - ((course.price * course.discount) / 100)) * 100)
-            currency = "INR"  # INDIAN RUPI
-            notes = {
-                "email": user.email,
-                "name": f'{user.first_name} {user.last_name}'
-            }
-            reciept = f"E_learning_atiqur-{int(time())}"
+        currency = "INR"  # INDIAN RUPI
+        notes = {
+            "email": user.email,
+            "name": f'{user.first_name} {user.last_name}'
+        }
+        reciept = f"E_learning_atiqur-{int(time())}"
 
-            order = client.order.create(
-                {'receipt': reciept,
-                 'notes': notes,
-                 'amount': amount,
-                 'currency': currency
-                 }
-            )
-            payment = Payment()
-            payment.user = user
-            payment.course = course
-            payment.order_id = order.get('id')  # order_id add hobe payment models
-            payment.save()
+        order = client.order.create(
+            {'receipt': reciept,
+             'notes': notes,
+             'amount': amount,
+             'currency': currency
+             }
+        )
+        payment = Payment()
+        payment.user = user
+        payment.course = course
+        payment.order_id = order.get('id')  # order_id add hobe payment models
+        payment.save()
 
     data = {
         "course": course,
@@ -144,11 +151,20 @@ def Login_page(request):
         username = request.POST['username']
         password = request.POST['password1']
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             return redirect('homepage')
         else:
             return redirect('login')
+
+    # current page login redirect hobe  (problem )
+    # next_page = request.GET.get('next')
+    # # return HttpResponse(next_page)
+    # if next_page is not None:
+    #     return redirect(next_page)
+    #
+
     return render(request, 'Userpage/login.html')
 
 

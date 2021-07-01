@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def Homepage(request):
-    all_course = Course.objects.all()
+    all_course = Course.objects.filter(active=True)
     data = {
         "all_course": all_course
     }

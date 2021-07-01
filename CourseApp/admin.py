@@ -24,6 +24,20 @@ class Course_Admin(admin.ModelAdmin):
         model = Course
 
     inlines = [TagAdmin, prerequisiteAdmin, LearningAdmin, course_video_admin]
+    list_display = ["click", "name", "get_price", "get_discount", "active"]
+    list_filter = ("discount", "active")
+
+    def get_discount(self, course):
+        return f'{course.discount} %'
+
+    def get_price(self, course):
+        return f'৳ {course.price}'
+
+    def click(self, course):
+        return "click to Open "
+
+    get_discount.short_description = "Discount"
+    get_price.short_description = "Price"
 
 
 admin.site.register(Course, Course_Admin)
