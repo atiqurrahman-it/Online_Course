@@ -1,0 +1,57 @@
+{% extends 'inheritance_page/base.html' %}
+
+{% load static  %}
+
+{% block stylesheet_link %}
+{% endblock %}
+
+{% block title %} E-Learning {% endblock %}
+
+
+{% block stylesheet %}
+<style>
+
+ </style>
+
+{% endblock %}
+
+{% block maincontent %}
+<div class="container-fluid">
+ <p class="mt-4" style="font-size: medium; margin-left: 20px;"> My Courses </p>
+ <hr>
+  <div class="row mt-3">
+        {% for uec in user_enroll_course %} <!-- uic that means  user enroll course -->
+            <div class="col-md-4 mx-auto">
+                <div class="card mx-auto" style="width: 24rem;">
+                    <img class="card-img-top" src="{{ uec.course.thumbnail.url }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ uec.course.name }}</h5>
+                    </div>
+                    <!--     # templatetags file form import -->
+                    <div class="card-footer p-0">
+                        <div class="row no-gutters">
+                            <div class="col border-right">
+                                <!-- show more er path -->
+                                <a href="/singleCourse/{{ uec.course.slug }}" class="btn btn-light btn-block">Start
+                                    Course </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+  </div> <!-- end row -->
+</div>
+{% endblock %} <!--end maincontent-->
+
+{% block script_link %}
+{% endblock %}
+
+{% block script_code %}
+    <script>
+    </script>
+{% endblock %}
+

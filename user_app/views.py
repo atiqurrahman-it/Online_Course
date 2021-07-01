@@ -4,6 +4,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+
+
 # csrf_token use  na korte chile
 from django.views.decorators.csrf import csrf_exempt
 
@@ -21,11 +24,12 @@ client = razorpay.Client(auth=(KEY_ID, kEY_SECRET))
 
 
 # Create your views here.
+@login_required(login_url='login')
 def Enroll_checkout_Page(request, slug):
     course = Course.objects.get(slug=slug)
     user = None
-    if not request.user.is_authenticated:
-        return redirect("login")
+    # if not request.user.is_authenticated:
+    #     return redirect("login") # login_required control 
 
     user = request.user
     action = request.GET.get('action')
@@ -94,7 +98,7 @@ def verifyPayment(request):
             payment.user_sel_course = user_course
             payment.save()
 
-            return render(request, 'userpage/my_enrol_courses.html', data)
+            return redirect('my_courses')
 
         except:
             return HttpResponse("error payment completed ")

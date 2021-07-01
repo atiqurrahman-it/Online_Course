@@ -12,5 +12,7 @@ from . import views
 
 urlpatterns = [
     path("", views.Homepage, name='homepage'),
-    path("singleCourse/<str:slug>/", views.singleCoursePage, name='singleCourse')
+    path("singleCourse/<str:slug>/", views.singleCoursePage, name='singleCourse'),
+    path("my_courses", views.MyCourses, name='my_courses'),
+
 ]

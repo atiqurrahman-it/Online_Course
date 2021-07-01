@@ -1,6 +1,9 @@
 from django.shortcuts import render, HttpResponse, redirect
+
 from .models import Course, video
 from user_app.models import User_select_course
+
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -30,7 +33,7 @@ def singleCoursePage(request, slug):
                 user_select_course = User_select_course.objects.get(user=user, course=single_course)
             except:
                 # slug provide korte hobe path a
-                return redirect('Enroll_checkout',slug=slug)
+                return redirect('Enroll_checkout', slug=slug)
 
     data = {
         "singleCourse": single_course,
@@ -38,3 +41,28 @@ def singleCoursePage(request, slug):
         "all_video": all_video,
     }
     return render(request, 'pages/CourseSinglePage.html', data)
+
+
+@login_required(login_url='login')
+def MyCourses(request):
+    current_user = request.user
+    user_enroll_course = User_select_course.objects.filter(user=current_user)
+    context = {
+        "user_enroll_course": user_enroll_course,
+    }
+    return render(request, 'courseApp/my_courses.html', context)
+
+
+# or
+# from django.views.generic.list import ListView
+# from django.utils.decorators import method_decorator
+#
+#
+# @method_decorator(login_required(login_url='login'), name='dispatch')
+# class MyCourses(ListView):
+#     template_name = 'courseApp/my_courses.html'
+#     context_object_name = 'user_enroll_course'
+
+#
+#     def get_queryset(self):
+#         return User_select_course.objects.filter(user=self.request.user)
