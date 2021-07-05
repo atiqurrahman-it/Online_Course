@@ -20,8 +20,17 @@ def singleCoursePage(request, slug):
     single_course = Course.objects.get(slug=slug)
     all_video = single_course.video_set.all().order_by("serial_number")  # serial_number import
     serial_number = request.GET.get("lecture")  # import CourseSinglePage
+    next_lecture = 2
+    Previous = None
     if serial_number is None:
         serial_number = 1
+    else:
+        next_lecture = int(serial_number) + 1
+        if len(all_video) < next_lecture:
+            next_lecture = None
+
+        Previous = int(serial_number) - 1
+
     link_click_video = video.objects.get(serial_number=serial_number, course=single_course)
 
     if link_click_video.is_preview is False:
@@ -39,6 +48,8 @@ def singleCoursePage(request, slug):
         "singleCourse": single_course,
         "video_details": link_click_video,
         "all_video": all_video,
+        "next_lecture": next_lecture,
+        "Previous": Previous,
     }
     return render(request, 'pages/CourseSinglePage.html', data)
 
@@ -51,7 +62,6 @@ def MyCourses(request):
         "user_enroll_course": user_enroll_course,
     }
     return render(request, 'courseApp/my_courses.html', context)
-
 
 # or
 # from django.views.generic.list import ListView

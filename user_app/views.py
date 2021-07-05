@@ -43,7 +43,7 @@ def Enroll_checkout_Page(request, slug):
 
     except:
         pass
-    amount=None
+    amount = None
     if error_message is None:
         amount = int((course.price - ((course.price * course.discount) / 100)) * 100)
 

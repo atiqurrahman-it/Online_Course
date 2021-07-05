@@ -58,6 +58,7 @@
                          <a href="/singleCourse/{{ cou.slug }}" class="btn btn-light btn-block">Start Course </a>
                     </div>
                  {% else %}
+                    <!-- free courser Enroll -->
                     {% if cou.discount is 100 %}
                             <div class="col border-right">
                          <a href="{% url 'Enroll_checkout' cou.slug %}" class="btn btn-light btn-block">Free Enroll Now</a>

@@ -51,6 +51,30 @@
          cursor:not-allowed;
      }
 
+     a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+}
 
     </style>
 
@@ -72,6 +96,31 @@
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                        </iframe>
                     </div>
+                      <!-- next and Previous button (start)  -->
+                    <div class="row">
+                        <div class="mr-auto">
+                            <!-- next button -->
+                            <div class="border round p-2">
+                                {% if next_lecture %}
+                                    <a href="?lecture={{ next_lecture }}" class="next">Next &raquo;</a>
+
+                                {% else %}
+                                    <a class="btn btn-success disabled" href="">next >></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="ml-auto">
+                            <!-- Previous button -->
+                            <div class="border round p-2">
+                                {% if Previous %}
+                                    <a href="?lecture={{ Previous }}" class="next">&laquo; Previous</a>
+                                {% else %}
+                                    <a href="" class="btn btn-success disabled">&laquo; Previous</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                     <!-- next and Previous button (End)  -->
                 </div>
                 <!-- leacture list -->
                 <div class="col-3">
