@@ -1,4 +1,4 @@
-#!c:\atiqur_rahman\desktop_file\django\onlinecourse\envfile\scripts\python.exe
+#!C:\Users\atiqu\Desktop\Online_Course\envfile\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
